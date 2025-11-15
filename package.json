@@ -11,7 +11,8 @@
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "p-mig": "bunx prisma migrate dev",
     "p-gen": "bunx prisma generate dev",
-    "p-format": "bunx prisma format"
+    "p-format": "bunx prisma format",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
