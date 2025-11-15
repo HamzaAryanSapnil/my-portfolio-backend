@@ -12,7 +12,9 @@
     "p-mig": "bunx prisma migrate dev",
     "p-gen": "bunx prisma generate dev",
     "p-format": "bunx prisma format",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
