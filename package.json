@@ -8,10 +8,15 @@
     "schema": "./prisma/schema"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "p-mig": "bunx prisma migrate dev",
+    "p-gen": "bunx prisma generate dev",
+    "p-format": "bunx prisma format"
   },
   "dependencies": {
-    "@prisma/client": "^6.16.3",
+    "@prisma/client": "^6.19.0",
+    "@types/cookie-parser": "^1.4.10",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
