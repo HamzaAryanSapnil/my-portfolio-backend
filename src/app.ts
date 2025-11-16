@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://your-portfolio-frontend.vercel.app",
+      "https://nextjs-portfolio-delta-three.vercel.app",
     ],
     credentials: true,
   })
