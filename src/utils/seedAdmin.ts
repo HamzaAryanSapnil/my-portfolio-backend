@@ -14,7 +14,10 @@ export const seedAdmin = async () => {
     console.log("✔️ Admin credential already has been seeded.");
     return;
   }
-
+ console.log("config.salt_round :", config.salt_round);
+ console.log("admin credentials", {
+  adminEmail, adminPassword
+ })
   const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
   await prisma.user.create({

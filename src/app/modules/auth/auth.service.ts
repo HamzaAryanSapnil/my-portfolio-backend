@@ -96,6 +96,8 @@ const changePassword = async (user: any, payload: any) => {
     throw new Error("Password incorrect!");
   }
 
+  console.log("payload.newPassword :", payload.newPassword);
+  console.log("config.salt_round :", config.salt_round);
   const hashedPassword: string = await bcrypt.hash(
     payload.newPassword,
     Number(config.salt_round)
