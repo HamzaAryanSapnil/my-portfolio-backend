@@ -5,7 +5,7 @@ import { AuthService } from "./auth.service";
 import httpStatus from "http-status";
 
 const login = catchAsync(async (req: Request, res: Response) => {
-  const result = await AuthService.login(req.body);
+  const result = await AuthService.login(req?.body);
   const { accessToken, refreshToken, needPasswordChange } = result;
 
   res.cookie("accessToken", accessToken, {

@@ -6,15 +6,29 @@ import { Secret } from "jsonwebtoken";
 import ApiError from "../../errors/ApiError";
 import httpStatus from "http-status";
 import config from "../../../config";
-
-import { emit } from "process";
 import { JwtHelper } from "../../helper/jwtHelper";
 import emailSender from "./emailSender";
 
 const login = async (payload: { email: string; password: string }) => {
+  console.log(payload, "from login");
+  console.log(payload?.email, "from login");
+  console.log(payload?.password, "from login");
+ const {email, password} = payload;
+ 
+  console.log(
+    {
+      email,
+      password,
+    },
+    "from login"
+  );
+  if (!email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email is required!");
+  }
+
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-      email: payload.email,
+      email,
       status: UserStatus.ACTIVE,
     },
   });
@@ -96,8 +110,6 @@ const changePassword = async (user: any, payload: any) => {
     throw new Error("Password incorrect!");
   }
 
-  console.log("payload.newPassword :", payload.newPassword);
-  console.log("config.salt_round :", config.salt_round);
   const hashedPassword: string = await bcrypt.hash(
     payload.newPassword,
     Number(config.salt_round)
