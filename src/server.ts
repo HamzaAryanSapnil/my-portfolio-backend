@@ -2,7 +2,6 @@
 // import app from './app';
 // import config from './config';
 
-
 // async function bootstrap() {
 //     // This variable will hold our server instance
 //     let server: Server;
@@ -46,34 +45,57 @@
 // bootstrap();
 import app from "./app";
 import config from "./config";
+import { seedAdmin } from "./utils/seedAdmin";
 
-/**
- * If running on Vercel Serverless, there is NO app.listen()
- * Vercel will automatically handle the request using the exported app.
- */
+async function bootstrap() {
+  try {
+    // ---------------------------------------
+    // 🔹 Auto Seed Admin (Vercel + Local both)
+    // ---------------------------------------
+    await seedAdmin();
 
-// If NOT running on Vercel (local dev), then start the server normally
-if (process.env.VERCEL !== "1") {
-  const server = app.listen(config.port, () => {
-    console.log(`🚀 Server running locally on http://localhost:${config.port}`);
-  });
+    // ---------------------------------------
+    // 🔹 Local server start
+    // ---------------------------------------
+    // Vercel serverless environment = no listen()
+    // Locally = normal listen
+    if (process.env.VERCEL !== "1") {
+      const server = app.listen(config.port, () => {
+        console.log(
+          `🚀 Server running locally on http://localhost:${config.port}`
+        );
+      });
 
-  const exitHandler = () => {
-    console.log("🛑 Server shutting down...");
-    server.close(() => {
-      process.exit(1);
-    });
-  };
+      const exitHandler = () => {
+        console.log("🛑 Server shutting down...");
+        server.close(() => {
+          process.exit(1);
+        });
+      };
 
-  process.on("SIGINT", exitHandler);
-  process.on("SIGTERM", exitHandler);
+      process.on("SIGINT", exitHandler);
+      process.on("SIGTERM", exitHandler);
 
-  process.on("unhandledRejection", (error) => {
-    console.log("❌ Unhandled Rejection detected...");
-    console.log(error);
-    exitHandler();
-  });
+      process.on("unhandledRejection", (error) => {
+        console.log("❌ Unhandled Rejection detected...");
+        console.log(error);
+        exitHandler();
+      });
+    }
+
+    // 🟢 NOTE: Vercel automatically handles request routing to `app`
+  } catch (error) {
+    console.error("❌ Error during server startup:", error);
+    process.exit(1);
+  }
 }
 
-// Export for Vercel serverless function
+// Run the bootstrap only in local environment
+if (process.env.VERCEL !== "1") {
+  bootstrap();
+}
+
+// ---------------------------------------
+// 🔹 Export app for Vercel Serverless
+// ---------------------------------------
 export default app;
