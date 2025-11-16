@@ -20,4 +20,8 @@ export default {
   },
   reset_pass_link: process.env.RESET_PASS_LINK,
   salt_round: process.env.SALT_ROUND,
+
+  // Admin credentials
+  admin_email: process.env.ADMIN_EMAIL,
+  admin_password: process.env.ADMIN_PASSWORD,
 };

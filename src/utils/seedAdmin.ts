@@ -1,9 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import config from "../config";
 const prisma = new PrismaClient();
 export const seedAdmin = async () => {
-  const adminEmail = "admin@portfolio.com";
-  const adminPassword = "admin123"; 
+  const adminEmail = config.admin_email as string;
+  const adminPassword = config.admin_password as string; 
 
   const isAdminExists = await prisma.user.findUnique({
     where: { email: adminEmail },
@@ -20,7 +21,7 @@ export const seedAdmin = async () => {
     data: {
       email: adminEmail,
       password: hashedPassword,
-      role: "ADMIN",
+      role: UserRole.ADMIN,
       needPasswordChange: false,
       admin: {
         create: {
