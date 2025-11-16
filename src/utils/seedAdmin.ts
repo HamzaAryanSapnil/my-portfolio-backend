@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 export const seedAdmin = async () => {
   const adminEmail = "admin@portfolio.com";
-  const adminPassword = "admin123"; // চাইলে env এ নিতে পারেন
+  const adminPassword = "admin123"; 
 
   const isAdminExists = await prisma.user.findUnique({
     where: { email: adminEmail },
