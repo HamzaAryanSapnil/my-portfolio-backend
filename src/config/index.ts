@@ -24,4 +24,10 @@ export default {
   // Admin credentials
   admin_email: process.env.ADMIN_EMAIL,
   admin_password: process.env.ADMIN_PASSWORD,
+
+  //   * Email Sender Configuration
+  emailSender: {
+    email: process.env.EMAIL,
+    app_pass: process.env.APP_PASS,
+  },
 };
