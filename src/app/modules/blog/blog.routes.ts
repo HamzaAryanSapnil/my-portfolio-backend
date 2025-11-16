@@ -14,7 +14,7 @@ router.get("/:id", BlogController.getSingleBlog);
 router.get("/slug/:slug", BlogController.getBlogBySlug);
 
 // create (protected in real app)
-router.post("/", BlogController.createBlog);
+router.post("/create-blog", BlogController.createBlog);
 
 // update
 router.patch("/:id", BlogController.updateBlog);

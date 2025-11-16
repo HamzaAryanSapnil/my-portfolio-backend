@@ -89,7 +89,7 @@ const getBySlug = async (slug: string) => {
 };
 
 const createBlog = async (payload: IBlog) => {
-  // optionally sanitize/validate slug uniqueness
+
   const created = await prisma.blog.create({ data: payload as any });
   return created;
 };
