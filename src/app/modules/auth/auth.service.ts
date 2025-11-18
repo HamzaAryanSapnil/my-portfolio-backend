@@ -1,4 +1,4 @@
-import { UserStatus } from "@prisma/client";
+import { UserRole, UserStatus } from "@prisma/client";
 import { prisma } from "../../shared/prisma";
 import bcrypt from "bcryptjs";
 import { Secret } from "jsonwebtoken";
@@ -10,11 +10,8 @@ import { JwtHelper } from "../../helper/jwtHelper";
 import emailSender from "./emailSender";
 
 const login = async (payload: { email: string; password: string }) => {
-  console.log(payload, "from login");
-  console.log(payload?.email, "from login");
-  console.log(payload?.password, "from login");
- const {email, password} = payload;
- 
+  const { email, password } = payload;
+
   console.log(
     {
       email,
@@ -209,14 +206,30 @@ const getMe = async (session: any) => {
     config.jwt_secret as Secret
   );
 
-  const userData = await prisma.user.findUniqueOrThrow({
+  const userData = await prisma.user.findUnique({
     where: {
       email: decodedData.email,
       status: UserStatus.ACTIVE,
     },
+    include: {
+      admin: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profilePhoto: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    },
   });
 
-  const { id, email, role, needPasswordChange, status } = userData;
+  if (!userData) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found!");
+  }
+
+  const { id, email, role, needPasswordChange, status, admin } = userData;
 
   return {
     id,
@@ -224,6 +237,7 @@ const getMe = async (session: any) => {
     role,
     needPasswordChange,
     status,
+    admin: role === UserRole.ADMIN ? admin : null,
   };
 };
 
