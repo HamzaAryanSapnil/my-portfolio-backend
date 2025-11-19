@@ -12,13 +12,7 @@ import emailSender from "./emailSender";
 const login = async (payload: { email: string; password: string }) => {
   const { email, password } = payload;
 
-  console.log(
-    {
-      email,
-      password,
-    },
-    "from login"
-  );
+
   if (!email) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email is required!");
   }

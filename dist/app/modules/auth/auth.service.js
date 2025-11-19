@@ -22,14 +22,9 @@ const config_1 = __importDefault(require("../../../config"));
 const jwtHelper_1 = require("../../helper/jwtHelper");
 const emailSender_1 = __importDefault(require("./emailSender"));
 const login = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload, "from login");
-    console.log(payload === null || payload === void 0 ? void 0 : payload.email, "from login");
-    console.log(payload === null || payload === void 0 ? void 0 : payload.password, "from login");
+  
     const { email, password } = payload;
-    console.log({
-        email,
-        password,
-    }, "from login");
+
     if (!email) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Email is required!");
     }
