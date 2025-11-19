@@ -12,7 +12,6 @@ import emailSender from "./emailSender";
 const login = async (payload: { email: string; password: string }) => {
   const { email, password } = payload;
 
-
   if (!email) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email is required!");
   }
@@ -24,10 +23,7 @@ const login = async (payload: { email: string; password: string }) => {
     },
   });
 
-  const isCorrectPassword = await bcrypt.compare(
-    payload.password,
-    user.password
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.password);
   if (!isCorrectPassword) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Password is incorrect!");
   }
