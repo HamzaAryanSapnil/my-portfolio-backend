@@ -88,7 +88,7 @@ const getBySlug = async (slug: string) => {
   return blog;
 };
 
-const createBlog = async (payload: IBlog) => {
+const createBlog = async (payload: any) => {
 
   const created = await prisma.blog.create({ data: payload as any });
   return created;
