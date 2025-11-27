@@ -7,13 +7,13 @@ import auth from "../../middlewares/auth";
 const router = express.Router();
 
 // public list with filters & pagination
-router.get("/", auth(UserRole.ADMIN), BlogController.getAllFromDb);
+router.get("/",  BlogController.getAllFromDb);
 
 // get by id
-router.get("/:id", auth(UserRole.ADMIN), BlogController.getSingleBlog);
+router.get("/:id",  BlogController.getSingleBlog);
 
 // get by slug
-router.get("/slug/:slug", auth(UserRole.ADMIN), BlogController.getBlogBySlug);
+router.get("/:slug",  BlogController.getBlogBySlug);
 
 // create (protected in real app)
 router.post("/create-blog", auth(UserRole.ADMIN), BlogController.createBlog);
