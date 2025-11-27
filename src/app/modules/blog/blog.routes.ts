@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/",  BlogController.getAllFromDb);
 
 // get by id
-router.get("/:id",  BlogController.getSingleBlog);
+// router.get("/:id",  BlogController.getSingleBlog);
 
 // get by slug
 router.get("/:slug",  BlogController.getBlogBySlug);
