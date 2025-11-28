@@ -16,8 +16,9 @@ const jwtHelper_1 = require("../helper/jwtHelper");
 const config_1 = __importDefault(require("../../config"));
 const auth = (...roles) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         try {
-            const token = req.cookies.get("accessToken");
+            const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken;
             if (!token) {
                 throw new Error("You are not authorized!");
             }

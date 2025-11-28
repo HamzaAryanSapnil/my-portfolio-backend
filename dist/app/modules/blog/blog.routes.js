@@ -11,11 +11,11 @@ const client_1 = require("@prisma/client");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const router = express_1.default.Router();
 // public list with filters & pagination
-router.get("/", (0, auth_1.default)(client_1.UserRole.ADMIN), blog_controller_1.BlogController.getAllFromDb);
+router.get("/", blog_controller_1.BlogController.getAllFromDb);
 // get by id
-router.get("/:id", (0, auth_1.default)(client_1.UserRole.ADMIN), blog_controller_1.BlogController.getSingleBlog);
+// router.get("/:id",  BlogController.getSingleBlog);
 // get by slug
-router.get("/slug/:slug", (0, auth_1.default)(client_1.UserRole.ADMIN), blog_controller_1.BlogController.getBlogBySlug);
+router.get("/:slug", blog_controller_1.BlogController.getBlogBySlug);
 // create (protected in real app)
 router.post("/create-blog", (0, auth_1.default)(client_1.UserRole.ADMIN), blog_controller_1.BlogController.createBlog);
 // update

@@ -22,9 +22,7 @@ const config_1 = __importDefault(require("../../../config"));
 const jwtHelper_1 = require("../../helper/jwtHelper");
 const emailSender_1 = __importDefault(require("./emailSender"));
 const login = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-  
     const { email, password } = payload;
-
     if (!email) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Email is required!");
     }
@@ -34,7 +32,7 @@ const login = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             status: client_1.UserStatus.ACTIVE,
         },
     });
-    const isCorrectPassword = yield bcryptjs_1.default.compare(payload.password, user.password);
+    const isCorrectPassword = yield bcryptjs_1.default.compare(password, user.password);
     if (!isCorrectPassword) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Password is incorrect!");
     }
@@ -143,19 +141,35 @@ const resetPassword = (token, payload) => __awaiter(void 0, void 0, void 0, func
 const getMe = (session) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = session.accessToken;
     const decodedData = jwtHelper_1.JwtHelper.verifyToken(accessToken, config_1.default.jwt_secret);
-    const userData = yield prisma_1.prisma.user.findUniqueOrThrow({
+    const userData = yield prisma_1.prisma.user.findUnique({
         where: {
             email: decodedData.email,
             status: client_1.UserStatus.ACTIVE,
         },
+        include: {
+            admin: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    profilePhoto: true,
+                    createdAt: true,
+                    updatedAt: true,
+                },
+            },
+        },
     });
-    const { id, email, role, needPasswordChange, status } = userData;
+    if (!userData) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
+    }
+    const { id, email, role, needPasswordChange, status, admin } = userData;
     return {
         id,
         email,
         role,
         needPasswordChange,
         status,
+        admin: role === client_1.UserRole.ADMIN ? admin : null,
     };
 });
 exports.AuthService = {
